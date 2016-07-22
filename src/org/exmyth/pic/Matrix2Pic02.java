@@ -1,4 +1,4 @@
-package org.wpwl.pic;
+package org.exmyth.pic;
 
 import java.io.File;
 import java.util.Hashtable;
@@ -27,7 +27,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
  *
  *
  */
-public class Matrix2Pic {
+public class Matrix2Pic02 {
 
 	/**
 	 * @authoer：jason
@@ -39,17 +39,23 @@ public class Matrix2Pic {
 		// TODO Auto-generated method stub
 		try {
 			 if( args.length < 4) {
-				 System.out.println("使用方式: 命令  字符串前缀  标签开始序号  标签总数 保存目录");
-				 System.out.println("举例: MatrixCode http://www.wpwl.org/d.htm 2015999999990001 4000 e:\\test");
+				 System.out.println("使用方式: 命令  序号前半部分 序号后半部分 标签总数 保存目录");
+				 System.out.println("举例: MatrixCode A 0000000001 4000 e:\\test");
 			 } else {
 					int width = 150; 
 					int height = 150;
 					String format = "png";
-					String str = args[0];
-					String serialStart = args[1];
+//					String str = args[0];
+//					String serialStart = args[1];
+//					String serialEnd = args[2];
+//					String serialNum = args[3];
+//					String savePath = args[3];
+					String serialStart = args[0];
+					String serialEnd = args[1];
 					String serialNum = args[2];
 					String savePath = args[3];
-					long start1 = Long.parseLong(serialStart);
+					
+					long start1 = Long.parseLong(serialEnd);
 					ErrorCorrectionLevel level = ErrorCorrectionLevel.H;
 					Hashtable hints= new Hashtable();
 					hints.put(EncodeHintType.CHARACTER_SET, "utf-8");  
@@ -58,19 +64,20 @@ public class Matrix2Pic {
 					for(int i = 0; i < Integer.parseInt(serialNum) ; i ++) {
 						long serialNo = start1 + i;
 //						String temp = str + "?" + serialNo;
-						String temp = str + serialNo;
-						BitMatrix bitMatrix = new MultiFormatWriter().encode(temp, BarcodeFormat.CODE_128, width, height,hints);
-//						BitMatrix result = MatrixCode.updateBit(bitMatrix, 0);
-						File outputFile = new File(savePath + "\\" + (i+1) + ".png"); 
-						MatrixToImageWriter.writeToFile(bitMatrix, format, outputFile);
+//						BitMatrix bitMatrix = new MultiFormatWriter().encode(temp, BarcodeFormat.QR_CODE, width, height,hints);
+////						BitMatrix result = MatrixCode.updateBit(bitMatrix, 0);
+//						File outputFile = new File(savePath + "\\" + (i+1) + ".png"); 
+//						MatrixToImageWriter.writeToFile(bitMatrix, format, outputFile);
 						
 						// 文字编码 ,生成条码 
 			            Hashtable<EncodeHintType, String> barCodeHints = new Hashtable<EncodeHintType, String>();  
 			            barCodeHints.put(EncodeHintType.CHARACTER_SET, "utf-8");  
 			            
-			            String serialStr = serialNo+"";
+			            String strTemp = String.format("%09d", serialNo);
+			            String serialStr = serialStart + strTemp;
 			            //老的标签，采用10位
-			            BitMatrix barMatrix = new MultiFormatWriter().encode(serialStr.substring(7, 17),
+			            BitMatrix barMatrix = new MultiFormatWriter().encode(serialStr,
+//			            BitMatrix barMatrix = new MultiFormatWriter().encode(serialStr.substring(7, 17),
 			            		BarcodeFormat.CODE_128, 70, 15, barCodeHints);
 			            //采用17位
 //			            BitMatrix barMatrix = new MultiFormatWriter().encode(serialStr, 
@@ -84,7 +91,7 @@ public class Matrix2Pic {
 						MatrixToImageWriter.writeToFile(barMatrix, format, outputFile1); 
 					}
 			 }
-			 System.out.println("二维码图片生成成功");            
+			 System.out.println("条码图片生成成功");            
 //		     String content = "120605181003;http://www.cnblogs.com/jtmjx";
 //		     String path = "d:\\";
 //		     

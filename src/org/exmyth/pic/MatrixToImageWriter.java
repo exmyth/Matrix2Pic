@@ -1,4 +1,4 @@
-package org.wpwl.pic;
+package org.exmyth.pic;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

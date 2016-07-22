@@ -1,4 +1,4 @@
-package org.wpwl.pic;
+package org.exmyth.pic;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,23 +13,21 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 /**
  * 
- * @author WPWL
- * 
- * ITF	10进制	4位长度
- * 
- * 抗菌水圆形标签使用编码
- * 
+ * @author wpwl-hfq
+ * 欧林
+ * 抗菌水圆形标签(生成图片)
+ *
  */
-public class BarCode2Pic_Water {
+public class BarCode2Pic_OuLin {
 	public static void main(String[] args) {
 		try {
 			 if( args.length < 4) {
 				 System.out.println("使用方式: 命令  序号前半部分 序号后半部分 标签总数 保存目录");
-				 System.out.println("举例: BarCode2Pic A000 000001 30 d:\\PicWater");
+				 System.out.println("举例: BarCode2Pic B000 000001 18000 d:\\PicOuLin");
 			 }
 			 else {
-					int width = 64; 
-					int height = 16;
+					int width = 120; 
+					int height = 26;
 					String format = "png";
 					
 					String serialStart = args[0];
@@ -55,7 +53,7 @@ public class BarCode2Pic_Water {
 					Map<EncodeHintType,Object> hints= new Hashtable<EncodeHintType,Object>();
 					hints.put(EncodeHintType.CHARACTER_SET, "utf-8");  
 					hints.put(EncodeHintType.ERROR_CORRECTION, level); //容错率
-					hints.put(EncodeHintType.MARGIN,-1);  //二维码边框宽度，这
+					hints.put(EncodeHintType.MARGIN,0);  //二维码边框宽度，这
 					
 					File barcode = new File(savePath,"BarCode2Pic.txt");
 					//清空之前的条码记录
@@ -79,7 +77,7 @@ public class BarCode2Pic_Water {
 //						MatrixToImageWriter.writeToFile(barMatrix1, format, outputFile1); 
 			            
 			            
-			            BitMatrix barMatrix2 = new MultiFormatWriter().encode(serialStr,BarcodeFormat.ITF, width, height, hints);
+			            BitMatrix barMatrix2 = new MultiFormatWriter().encode(serialStart+serialStr,BarcodeFormat.CODE_128, width, height, hints);
 //						File outputFile2 = new File(savePath + "\\" + serialStart+serialStr+"_bar.png"); 
 			            File outputFile2 = new File(savePath + "\\" + (i+1) + "_bar.png");
 						MatrixToImageWriter.writeToFile(barMatrix2, format, outputFile2); 
